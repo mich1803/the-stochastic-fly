@@ -33,8 +33,7 @@ p, dd, li { line-height: 1.55; }
 .paper-subtitle { max-width: 42rem; margin: .4rem auto 2rem; font-size: clamp(1.25rem, 3vw, 2rem); line-height: 1.2; }
 .author { margin: 0; font-size: 1.35rem; font-weight: bold; }
 .affiliation { margin: .25rem 0 1.4rem; color: var(--muted); }
-.masthead-inner nav, .compact-inner nav { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
-.masthead-inner nav { justify-content: center; }
+.masthead-inner nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.25rem; }
 
 .compact-header {
   position: fixed;
@@ -56,9 +55,34 @@ p, dd, li { line-height: 1.55; }
   padding: .45rem 1.25rem;
   margin: auto;
 }
-.short-title { display: flex; align-items: center; gap: .45rem; color: var(--ink); text-decoration: none; }
+.short-title { display: flex; align-items: center; gap: .45rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .short-title .fly-mark { width: 2.1rem; }
-.compact-inner nav { justify-content: end; font: .83rem Arial, sans-serif; }
+.compact-menu { position: relative; flex: none; }
+.compact-menu summary {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid transparent;
+  list-style: none;
+  cursor: pointer;
+}
+.compact-menu summary::-webkit-details-marker { display: none; }
+.compact-menu summary:hover, .compact-menu[open] summary { border-color: var(--rule); }
+.compact-menu summary:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+.menu-icon { position: relative; width: 1.15rem; height: .8rem; border-block: 1px solid currentColor; }
+.menu-icon::after { content: ""; position: absolute; inset: 50% 0 auto; border-block-start: 1px solid currentColor; }
+.compact-menu nav {
+  position: absolute;
+  inset: calc(100% + .45rem) 0 auto auto;
+  min-width: 11rem;
+  padding: .25rem;
+  background: var(--background);
+  border: 1px solid var(--rule);
+  font: .9rem Arial, sans-serif;
+}
+.compact-menu nav a { display: flex; align-items: center; min-height: 2.75rem; padding-inline: .75rem; }
+.compact-menu nav a:hover { background: var(--rule); }
 
 .paper-body { max-width: 51rem; margin: auto; padding: 2.3rem 1.25rem 5rem; }
 .paper-body section + section { margin-top: 3rem; }
@@ -85,13 +109,13 @@ figcaption { font-size: .94rem; color: var(--muted); line-height: 1.45; }
 .references li { padding: .2rem 0; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .compact-header { transition: opacity .16s ease, visibility .16s; }
+  .compact-header.is-visible { transition: opacity .16s ease; }
 }
 @media (max-width: 520px) {
   body { font-size: 17px; }
   .paper-body, .paper-masthead { padding-inline: .9rem; }
+  .paper-masthead h1 { font-size: clamp(1.65rem, 11vw, 2.35rem); white-space: nowrap; }
   .compact-inner { gap: .5rem; padding-inline: .9rem; }
-  .compact-inner nav { gap: .32rem .65rem; font-size: .76rem; }
   .short-title { font-size: .95rem; }
   .short-title .fly-mark { width: 1.6rem; }
 }
