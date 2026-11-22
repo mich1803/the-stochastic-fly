@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090e14">
+  <meta name="description" content="A study of detailed balance, spontaneous fluctuations and response in a stochastic model constrained by the MaleCNS connectome.">
+  <title>The Stochastic Fly · From Detailed Balance to Irreversible Dynamics</title>
+  <link rel="icon" href="assets/mosca_halftone_vettoriale.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="header.js" defer></script>
+</head>
+<body>
+  <header id="paper" class="paper-masthead">
+    <div class="masthead-inner">
+      <h1><img class="fly-mark" src="assets/mosca_halftone_vettoriale.svg" width="1254" height="1254" alt=""> <span>The Stochastic Fly</span></h1>
+      <p class="paper-subtitle">From Detailed Balance to Irreversible Dynamics</p>
+      <p class="author">Michele Magrini</p>
+      <p class="affiliation">MSc in Applied Mathematics for Artificial Intelligence<br>Sapienza University of Rome<br>Mathematical Models for Neural Networks</p>
+      <nav aria-label="Article shortcuts">
+        <a href="#foundations">Foundations</a>
+        <a href="#examples">Applications</a>
+        <a href="#research-question">Research question</a>
+      </nav>
+    </div>
+  </header>
+  <header id="compact-header" class="compact-header">
+    <div class="compact-inner">
+      <a href="#paper" class="short-title"><img class="fly-mark" src="assets/mosca_halftone_vettoriale.svg" width="1254" height="1254" alt=""> <span>The Stochastic Fly</span></a>
+      <nav aria-label="Article sections">
+        <a href="#foundations">Foundations</a>
+        <a href="#examples">Applications</a>
+        <a href="#research-question">Research question</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="paper-body">
+    <article aria-label="The Stochastic Fly">
+      <section aria-labelledby="foundations">
+        <h2 id="foundations">1. A stochastic network on MaleCNS</h2>
+        <p class="lead">Can spontaneous neural activity tell us how a circuit will respond when we stimulate it? At equilibrium, a fluctuation–response relation gives a precise answer. The directed wiring of the fly nervous system provides a way to test when that prediction remains useful in a stochastic neural model.</p>
+
+        <h3>1.1 From binary neurons to a Markov chain</h3>
+        <p>A McCulloch–Pitts unit represents a neuron by a state <i>x</i><sub>i</sub> that is either 0 or 1. Its inputs contribute to a local field. In a stochastic version of the model, this field determines the probability that the next state of the cell is 1. Here, a single cell is selected uniformly at random at each update. The other cells retain their states. <a href="#ref-mp">McCulloch and Pitts (1943)</a>.</p>
+        <div class="equation" aria-label="The local field is recurrent input plus external field minus threshold. The on probability is logistic in beta times the local field.">
+          <div>φ<sub>i</sub>(x) = <i>g</i> ∑<sub>j</sub> J<sub>ij</sub>x<sub>j</sub> + h<sub>i</sub> − θ<sub>i</sub></div>
+          <div>Pr(x<sub>i</sub>′ = 1 ∣ x, i) = [1 + exp(−βφ<sub>i</sub>(x))]<sup>−1</sup></div>
+        </div>
+        <p>The weight J<sub>ij</sub> carries input from cell <i>j</i> to cell <i>i</i>. The gain <i>g</i> scales recurrent input, θ<sub>i</sub> sets the threshold and β controls the steepness of the probability curve. The field h<sub>i</sub> gives us a direct intervention on selected cells. One <em>sweep</em> consists of as many random update attempts as there are neurons. With fixed weights and fields, the full configuration is the state of a Markov chain.</p>
+
+        <h3 id="connectome">1.2 The wiring diagram</h3>
+        <p>MaleCNS reconstructs the brain, optic lobes and ventral nerve cord of one adult male <i>Drosophila melanogaster</i>. The project used electron microscopy, automated segmentation and synapse detection, and extensive proofreading to trace around 166,700 neurons. The release provides directed chemical synaptic contacts and cell annotations. Contact counts supply the anatomical basis for J. A dynamical model must specify how counts translate into weight magnitudes, which effective signs to use and how to scale the inputs received by each cell. <a href="#ref-malecns">Berg et al. (2026)</a>, <a href="#ref-release">MaleCNS data release</a>.</p>
+        <figure class="anatomy">
+          <img src="assets/malecns-perturbation.png" width="1710" height="988" alt="Brain projection of sampled MaleCNS neuron skeletons. LPLC2 visual input traces are blue, and the projected positions of the two DNp01 readout cells are amber. Other sampled traces are gray.">
+          <ul class="figure-key" aria-label="Figure legend">
+            <li><span class="key-context"></span>Other sampled traces</li>
+            <li><span class="key-input"></span>LPLC2 input · B</li>
+            <li><span class="key-output"></span>DNp01 readout · O</li>
+          </ul>
+          <figcaption><strong>Figure 1.</strong> Anatomical example of where a field could be applied and where its response could be measured. Blue traces show 60 sampled LPLC2 cells. Amber markers show the projected positions of the two DNp01 cells. The brain projection displays morphology and location. LPLC2 and DNp01 illustrate a documented visual pathway, with experimental readout populations to be fixed in the study design. <a href="#ref-release">MaleCNS v1.0</a>, <a href="#ref-ache">Ache et al. (2019)</a>.</figcaption>
+        </figure>
+
+        <h3>1.3 Detailed balance and response</h3>
+        <p>In a stationary state the distribution of configurations stays constant while individual states continue to change. Detailed balance requires a stronger condition: the probability flux between any two configurations is the same in both directions. For random single-cell heat-bath updates with fixed fields, a symmetric weight matrix and zero diagonal give a Gibbs stationary distribution and satisfy this condition. Directed couplings can sustain stationary currents, so a loop through configurations can be more probable in one direction than in the reverse. <a href="#ref-sk">Aguilera et al. (2023)</a>.</p>
+        <p>The equilibrium fluctuation–dissipation relation connects two measurements. First, record spontaneous fluctuations in an input population B and a readout O. Then apply a small constant field to B and measure how O changes over time. At equilibrium, the spontaneous cross-covariance predicts the linear response to this intervention.</p>
+        <div class="equation" aria-label="Linear response equals beta times the difference between equal-time and lagged covariance.">
+          <div>χ<sub>OB</sub>(t) = β [C<sub>OB</sub>(0) − C<sub>OB</sub>(t)]</div>
+        </div>
+        <p>C<sub>OB</sub>(t) is the covariance between the readout at time <i>t</i> and B at time zero, measured at rest. If each input neuron receives the same added field ε, then B is the sum of the input states. The readout O can be a fraction of active cells. The system starts from its unperturbed stationary distribution. <a href="#ref-fdt">Baiesi, Maes and Wynants (2009)</a>.</p>
+      </section>
+
+      <section aria-labelledby="examples">
+        <h2 id="examples">2. What can we do with the wiring diagram?</h2>
+
+        <h3>2.1 A fly in Minecraft, Doom and chess</h3>
+        <p>The phrase <em>open-sourcing a fly’s brain</em> became a shorthand for an eclectic set of projects. These demonstrations share a design choice: software encodes a game or market state as neural input, then maps selected neural activity back to an action. Their treatment of learning varies.</p>
+        <dl class="examples">
+          <dt>NeuroCraft Fly</dt>
+          <dd>Minecraft events drive modeled sensory cells. Selected neural outputs trigger and modulate scripted body programs, such as grooming. The project assigns the input and action mappings by hand. <a href="#ref-minecraft">Project repository</a>.</dd>
+          <dt>DOOMFLY</dt>
+          <dd>Game frames drive modeled visual inputs. A fixed interface maps selected descending activity to button presses. The project also tests dopamine-gated plasticity on a subset of existing connections and reports that its latest documented candidate failed the survival validation. <a href="#ref-doom">Project repository</a>.</dd>
+          <dt>Alpha Fly</dt>
+          <dd>A learned encoder sends chess positions into the network and learned readouts score moves and positions. AlphaZero-style self-play trains those mappings, synaptic gains and neuron parameters with the wiring topology fixed. Search also contributes to the moves the system plays. <a href="#ref-chess">Project repository</a>.</dd>
+          <dt>Stonkfly</dt>
+          <dd>Market data rendered as charts enter a modeled visual interface. A fixed neural readout proposes buy, sell or hold. The default setup simulates trades, and the authors treat plasticity as an experimental feature. <a href="#ref-stonk">Project repository</a>.</dd>
+        </dl>
+
+        <h3>2.2 Scientific uses of MaleCNS</h3>
+        <p>The reconstruction also makes specific anatomical questions testable. Berg and colleagues compared male and female circuits and found that sex differences are concentrated in higher-order parts of the central brain, with identified pathways connecting sensory input to descending systems. A companion study traced paths from photoreceptors through the layered optic lobes and into the central brain. It found broad distribution of visual input alongside convergence at locations linked to particular visual features and spatial sampling. These studies use the wiring itself to formulate hypotheses about circuit function. <a href="#ref-malecns">Berg et al. (2026)</a>, <a href="#ref-vision">The organization of visual pathways (2026)</a>.</p>
+        <p>A complementary example comes from FlyWire, the separate adult female brain reconstruction. Shiu and colleagues built a spiking model from its connectivity and transmitter predictions, used it to identify candidates involved in taste responses, and tested selected predictions experimentally. It illustrates how a dynamical model can turn structural data into a perturbation experiment. <a href="#ref-shiu">Shiu et al. (2024)</a>.</p>
+
+        <h3 id="research-question">2.3 From task performance to a prediction from equilibrium</h3>
+        <p>In a task-oriented machine-learning study, the graph can constrain a system optimized for a score such as chess performance. Here we use the graph to specify interactions in a stochastic model. We fix its weights within each condition, intervene through a weak external field and ask which predictions from equilibrium still hold under directed coupling.</p>
+        <p>Our controlled comparison decomposes J, with its diagonal set to zero, into symmetric and antisymmetric parts S and K. We vary α in <span class="math">J<sub>α</sub> = S + αK</span>. At α = 0, the dynamics has a reversible reference. At α = 1, the directed weights are restored. For anatomically specified input and readout populations, we will compare the response to a weak field with the response predicted from spontaneous fluctuations. Our question is <strong>where, and on what timescale, does directed coupling change what we can predict from activity at rest?</strong></p>
+      </section>
+
+      <section class="references" aria-labelledby="references">
+        <h2 id="references">References</h2>
+        <ol>
+          <li id="ref-mp">McCulloch, W. S. and Pitts, W. (1943). <a href="https://doi.org/10.1007/BF02478259">A logical calculus of the ideas immanent in nervous activity</a>.</li>
+          <li id="ref-malecns">Berg, S. et al. (2026). <a href="https://doi.org/10.1016/j.cell.2026.08.015">Sexual dimorphism in the complete Drosophila male central nervous system connectome</a>. <i>Cell</i>.</li>
+          <li id="ref-release">MaleCNS collaboration. <a href="https://male-cns.janelia.org/download/">MaleCNS v1.0 data release</a>.</li>
+          <li id="ref-ache">Ache, J. M. et al. (2019). <a href="https://doi.org/10.1016/j.cub.2019.01.079">Neural basis for looming size and velocity encoding in the Drosophila giant fiber escape pathway</a>. <i>Current Biology</i>.</li>
+          <li id="ref-sk">Aguilera, M., Igarashi, M. and Shimazaki, H. (2023). <a href="https://doi.org/10.1038/s41467-023-39107-y">Nonequilibrium thermodynamics of the asymmetric Sherrington–Kirkpatrick model</a>. <i>Nature Communications</i>.</li>
+          <li id="ref-fdt">Baiesi, M., Maes, C. and Wynants, B. (2009). <a href="https://arxiv.org/abs/0902.3955">Fluctuations and response of nonequilibrium states</a>. <i>Physical Review Letters</i>.</li>
+          <li id="ref-minecraft"><a href="https://github.com/evnsnclr/neurocraft-fly-public">NeuroCraft Fly</a>. Project documentation.</li>
+          <li id="ref-doom"><a href="https://github.com/nftechie/doomfly">DOOMFLY</a>. Project documentation and validation reports.</li>
+          <li id="ref-chess"><a href="https://github.com/turlockmike/alpha-fly">Alpha Fly</a>. Project documentation.</li>
+          <li id="ref-stonk"><a href="https://github.com/nftechie/stonkfly">Stonkfly</a>. Project documentation.</li>
+          <li id="ref-vision"><a href="https://doi.org/10.1016/j.cell.2026.08.014">The organization of visual pathways in the Drosophila brain</a> (2026). <i>Cell</i>.</li>
+          <li id="ref-shiu">Shiu, P. K. et al. (2024). <a href="https://doi.org/10.1038/s41586-024-07763-9">A Drosophila computational brain model reveals sensorimotor processing</a>. <i>Nature</i>.</li>
+        </ol>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
