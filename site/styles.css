@@ -21,22 +21,20 @@ h1, h2, h3 { line-height: 1.15; }
 p, dd, li { line-height: 1.55; }
 [id] { scroll-margin-top: 5rem; }
 
-.paper-masthead { padding: clamp(3rem, 11vw, 9rem) 1.25rem 3rem; }
-.masthead-inner { max-width: 65rem; margin: auto; border-block: 1px solid var(--ink); padding: 1.6rem 0; }
+.paper-masthead { padding: clamp(1.25rem, 4vw, 3rem) 1.25rem 3rem; }
+.masthead-inner { max-width: 65rem; margin: auto; border-block-end: 1px solid var(--ink); padding-block-end: 1.6rem; text-align: center; }
+.masthead-panorama { display: block; width: 75%; height: auto; margin: 0 auto clamp(.45rem, 2vw, 1.25rem); filter: invert(1); }
 .paper-masthead h1 {
-  display: flex;
-  align-items: center;
-  gap: .22em;
   margin: 0;
   font-size: clamp(2.35rem, 7.4vw, 6.9rem);
   font-weight: 400;
 }
 .fly-mark { display: block; flex: none; object-fit: contain; height: auto; filter: invert(1); }
-.paper-masthead .fly-mark { width: 1.12em; }
-.paper-subtitle { max-width: 42rem; margin: .4rem 0 2rem; font-size: clamp(1.25rem, 3vw, 2rem); line-height: 1.2; }
+.paper-subtitle { max-width: 42rem; margin: .4rem auto 2rem; font-size: clamp(1.25rem, 3vw, 2rem); line-height: 1.2; }
 .author { margin: 0; font-size: 1.35rem; font-weight: bold; }
 .affiliation { margin: .25rem 0 1.4rem; color: var(--muted); }
 .masthead-inner nav, .compact-inner nav { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.masthead-inner nav { justify-content: center; }
 
 .compact-header {
   position: fixed;
@@ -71,8 +69,9 @@ p, dd, li { line-height: 1.55; }
 .equation { display: grid; gap: .35rem; margin: 1rem 0; padding: .65rem 1rem; border-left: 2px solid var(--rule); line-height: 1.45; }
 .math { white-space: nowrap; }
 
-.anatomy { margin: 1.65rem 0 1.4rem; }
-.anatomy img { display: block; width: 100%; height: auto; }
+.paper-body figure { margin: 1.65rem 0 1.4rem; }
+.paper-body figure img { display: block; width: 100%; height: auto; }
+.paper-body figure img + figcaption { margin-top: .65rem; }
 .figure-key { display: flex; flex-wrap: wrap; gap: .35rem 1.25rem; margin: .45rem 0 .7rem; padding: 0; list-style: none; font: .8rem Arial, sans-serif; }
 .figure-key li { display: flex; align-items: center; gap: .38rem; }
 .figure-key span { display: inline-block; width: 1.05rem; height: 2px; background: var(--context); }
